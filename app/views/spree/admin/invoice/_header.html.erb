@@ -9,9 +9,9 @@
       <% end %>
     <div align="right">
       <p class="title"><%= t("#{params[:template]}.header") %></p>
-      <p><%= t(:order_number, :number => @order.number) %></p>
+      <p><%= t('invoice.order_number', :number => @order.number) %></p>
       <p> <%= l(@order.completed_at.to_date) if @order.completed_at %></p>
-      <p><%= t(:shipping_method, :name => @order.shipping_method.name) %></p>
+      <p><%= t('invoice.shipping_method', :name => @order.shipping_method.name) %></p>
     </div></td>
   </tr>
 </table>

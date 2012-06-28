@@ -7,12 +7,11 @@ en:
   footer_right: "Company  <br/>Phone  <br/> www "
   footer_right2: " My great company <br/>040 146 1222 <br/>  www.gohereoften.com"
 
-  order_number: 'Order #%{number}'
-  shipping_method: 'Shipping %{name}'
-
   size: "Size"
   price: "Price"
   invoice:
+    order_number: 'Order #%{number}'
+    shipping_method: 'Shipping %{name}'
     header: Customer Invoice
     thanks: Thank you for your order.
     print: Print Invoice
