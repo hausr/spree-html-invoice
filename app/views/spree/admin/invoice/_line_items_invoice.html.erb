@@ -2,7 +2,6 @@
   <colgroup>
     <col/>
     <col/>
-    <col class="size"/>
     <col class="price"/>
     <col class="qty"/>
     <col class="total"/>
@@ -10,8 +9,7 @@
   <tr>
     <td class="sku bold"><%= t(:sku) unless @receipt %></td>
     <td class="desc bold"><%= t(:item_description) %></td>
-    <td class="size bold"><%= t(:size) %></td>
-    <td class="price bold"><%=t(:price) %></td>
+    <td class="price bold"><%=t(:price) unless @receipt%></td>
     <td class="qty bold"><%= t(:qty) %> </td>
     <td class="total bold"><%= t(:total) %></td>
   </tr>
@@ -19,8 +17,7 @@
     <tr>
       <td class="cell"><%=item.variant.sku unless @receipt%></td>
       <td class="cell"><%= item.variant.product.fullname rescue item.variant.product.name %></td>
-      <td class="cell size"><%= item.variant.options_text %></td>
-      <td class="cell price"><%=number_to_currency(item.price) %></td>
+      <td class="cell price"><%=number_to_currency(item.price) unless @receipt%></td>
       <td class="cell qty"><%=item.quantity %></td>
       <td class="cell total"><%=number_to_currency(item.price * item.quantity) %></td>
     </tr>
@@ -28,7 +25,6 @@
       <tr>
         <td class="cell">&nbsp;</td>
         <td class="cell">(<%= t(:discount) %>)</td>
-        <td class="cell size">&nbsp;</td>
         <td class="cell price"><%=number_to_currency(-1 * item.discount) %></td>
         <td class="cell qty">&nbsp;</td>
         <td class="cell total"><%=number_to_currency(-1 * item.discount * item.quantity) %></td>

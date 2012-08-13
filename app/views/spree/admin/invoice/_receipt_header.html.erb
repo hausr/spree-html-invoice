@@ -1,3 +1,5 @@
-<%= Spree::Config[:site_name] %><br/>
-<%= Spree::Config[:site_url] %><br/>
-info@<%= Spree::Config[:site_url] %><br/>
+<%= image_tag Spree::HtmlInvoice::Config[:html_receipt_logo_path] || "store/kuittilogo.gif", :id => "logo" %>
+<br><br>
+<div class="shop"><%= Spree::Config[:site_name] %></div>
+<div class="info">Fredrikinkatu 19 (Viiskulma) <br>
+00120 Helsinki</div>

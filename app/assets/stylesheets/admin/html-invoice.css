@@ -1,5 +1,3 @@
-/* @override http://localhost:3000/stylesheets/admin/html-invoice.css */
-
 div.a4 {
   width: 620px;
   font-size: 12px;
@@ -7,14 +5,16 @@ div.a4 {
 
 }
 
-div.a4 p {
-  margin: 0;
+img#logo {
+  width: 280px;
+  padding-bottom: 12px;
 }
 
 div.header {
   width: 620px;
   height: 100px;	
 }
+
 div.address {
   width: 620px;
   border-top:1px solid grey;
@@ -45,6 +45,8 @@ div.wrapper {
 div.thanks {
   width: 620px;
   margin-top: 20px;
+  margin-bottom: 20px;
+  line-height: 10px;
 }
 div.spacer {
   width: 620px;
@@ -120,6 +122,12 @@ table.index.order-summary {
       border: none; }
   table.index td.actions {text-align:right;}
 
+table.footer td{
+	line-height: 16px;
+  padding-bottom: 3px;
+}
+
+
 div.cod {
   float: left;
   background: black;
@@ -129,5 +137,4 @@ div.cod {
   font-weight: bold;
 }
 
-div.cod:empty
 
