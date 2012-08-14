@@ -2,7 +2,10 @@ div.a4 {
   width: 620px;
   font-size: 12px;
   font-family: helvetica, verdana, serif;
+}
 
+div.a4 p {
+  margin:0;
 }
 
 img#logo {
@@ -10,20 +13,22 @@ img#logo {
   padding-bottom: 12px;
 }
 
-div.header {
-  width: 620px;
-  height: 100px;	
+div#header {
+  height: 140px;	
+}
+
+div#header p {
+  margin:10px 0;
 }
 
 div.address {
-  width: 620px;
   border-top:1px solid grey;
   margin-bottom: 10px;
   padding: 6px;
-
 }
-.line_items {
-  width: 620px;
+
+table.line_items {
+  margin-bottom:20px;
 }
 
 .line_items .price, .line_items .total {
@@ -35,34 +40,40 @@ div.address {
 }
 
 div.wrapper {
-  width: 620px;
   height: 540px;
   border-top:1px solid grey;
-  padding: 6px;
-
+  padding: 6px 0;
 }
 
-div.thanks {
-  width: 620px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+div#additional_information {
+  min-width:380px;
+  width:60%;
   line-height: 10px;
+  float:left;
+  line-height: 1.25;
 }
-div.spacer {
-  width: 620px;
-}
-div.totals {
+
+div#totals {
+  min-width:220px;
+  width:35%;
   height: 100px;
   margin-bottom: 20px;
-  float: right;
+  float:right;
+}
+
+#shipping_instructions {
+}
+
+#thanks {
+  margin-top:20px;
 }
 
 .totals .cell {
-  width: 130px;
+  width: 70px;
 }
 
+/* TODO push footer to the absolute bottom of the page for print */
 div.footer {
-  width: 620px;
   border-top:1px solid grey;
   padding: 6px;
 }
@@ -79,9 +90,10 @@ div.footer {
 .bold { font-weight: bold; }
 .price { width: 80px ; }
 
-table.address{
-  width: 620px;
+table {
+  width:100%;
 }
+
 table.index th {
   background: #cdcdcd top left repeat-x;
   padding: 7px 10px;
@@ -127,7 +139,6 @@ table.footer td{
   padding-bottom: 3px;
 }
 
-
 div.cod {
   float: left;
   background: black;
@@ -137,4 +148,15 @@ div.cod {
   font-weight: bold;
 }
 
+/* responsive printing: makes the invoices stretch the width of the paper */
 
+@media print {
+  div.a4 {
+    width:100%;
+  }
+
+  html, body {
+    padding: 0;
+    margin:0;
+  }
+}

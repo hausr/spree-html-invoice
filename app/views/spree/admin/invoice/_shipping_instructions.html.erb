@@ -1,0 +1,3 @@
+<% if Spree::Config[:shipping_instructions] and @order.special_instructions.present? %>
+<p id="shipping_instructions"><b><%= t(:shipping_instructions) %></b><br/><%= @order.special_instructions %></p>
+<% end %>

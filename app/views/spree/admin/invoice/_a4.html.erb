@@ -18,12 +18,11 @@
       <div class="line_items">
         <%= render :partial => "line_items_#{params[:template]}" %>
       </div>
-      <div class="thanks">
+      <div id="additional_information">
+        <%= render :partial => "shipping_instructions" %>
         <%= render :partial => "thanks" %>
       </div>
-      <div class="spacer"> &nbsp;
-      </div>
-      <div class="totals">
+      <div id="totals">
         <%= render :partial => "totals_#{params[:template]}" %>
       </div>
     </div>

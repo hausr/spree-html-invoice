@@ -12,6 +12,7 @@ en:
   invoice:
     order_number: 'Order #%{number}'
     shipping_method: 'Shipping %{name}'
+    payment_status: 'Balance: %{status} by %{method}'
     header: Customer Invoice
     thanks: Thank you for your order.
     print: Print Invoice
