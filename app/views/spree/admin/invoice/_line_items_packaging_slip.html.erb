@@ -1,11 +1,7 @@
 <table class="line_items" >
-  <colgroup>
-    <col/>
-    <col/>
-  </colgroup>
   <tr>
-    <td class="sku bold"><%= I18n.t(:sku) unless @receipt %></td>
-    <td class="desc bold"><%= I18n.t(:item_description) %></td>
+    <td class="sku bold"><%= t(:sku) unless @receipt %></td>
+    <td class="desc bold"><%= t(:item_description) %></td>
     <td class="qty bold"><%= t(:qty) %> </td>
   </tr>
   <% @order.line_items.each do |item| %>
