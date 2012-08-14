@@ -61,11 +61,16 @@ div#totals {
   float:right;
 }
 
-#shipping_instructions {
+div#additional_information #thanks:first-child {
+  margin-top:0;
 }
 
 #thanks {
   margin-top:20px;
+}
+
+#thanks p {
+  padding-bottom:10px;
 }
 
 .totals .cell {
