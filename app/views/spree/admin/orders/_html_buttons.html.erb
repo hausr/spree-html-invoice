@@ -1,3 +1,3 @@
 <% (Spree::HtmlInvoice::Config[:print_buttons] || "invoice").split(",").map(&:strip).each do |button| %>
-<%= button_link_to(t("#{button}.print"), "/admin/invoice/#{@order.number}/#{button}", :target => "_blank") %>
+<%= button_link_to(t("#{button}.print"), invoices_path(@order), :target => "_blank") %>
 <% end %>
