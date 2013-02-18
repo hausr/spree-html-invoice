@@ -17,7 +17,7 @@ If you have improvements, please send pull though.
 
 1. To install you need to add the following lines to your Gemfile (no external dependencies)
 
-    gem 'spree_html_invoice' , :git => 'git://github.com/dancinglightning/spree-html-invoice.git'
+    gem 'spree_html_invoice' , :github => 'iloveitaly/spree-html-invoice'
 
 2. run bundler
 
