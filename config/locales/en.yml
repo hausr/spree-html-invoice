@@ -16,15 +16,3 @@ en:
     header: Customer Invoice
     thanks: Thank you for your order.
     print: Print Invoice
-  packaging_slip:
-    header: Packaging Slip
-    print: Print Slip
-    thanks: Please check the contents immediately.
-  reminder:
-    header: Payment Reminder
-    print: Reminder
-    thanks: Our system has not registered any payment for this Invoice. We kindly request you 
-            correct this situation.
-    receipt:
-      header: Receipt
-      print: Receipt

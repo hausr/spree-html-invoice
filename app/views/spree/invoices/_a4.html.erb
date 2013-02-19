@@ -2,8 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<%= stylesheet_link_tag "admin/html-invoice.css" , :media => "all" %>
-<title><%= t("#{params[:template]}.header") %></title>
+<%= wicked_pdf_stylesheet_link_tag "admin/html-invoice.css" , :media => "all" %>
+<title><%= t("invoice.header") %></title>
+<% if params[:print] == 'true' %>
+<script type="text/javascript">window.onload = function() { window.print(); }</script>
+<% end %>
 </head>
 
 <body>
@@ -16,14 +19,14 @@
     </div>
     <div class="wrapper">
       <div class="line_items">
-        <%= render :partial => "line_items_#{params[:template]}" %>
+        <%= render :partial => "line_items_invoice" %>
       </div>
       <div id="additional_information">
         <%= render :partial => "shipping_instructions" %>
         <%= render :partial => "thanks" %>
       </div>
       <div id="totals">
-        <%= render :partial => "totals_#{params[:template]}" %>
+        <%= render :partial => "totals_invoice" %>
       </div>
     </div>
     <div class="footer">
