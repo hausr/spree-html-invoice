@@ -1,6 +1,7 @@
+<% logo_path = Spree::HtmlInvoice::Config[:html_invoice_logo_path] || "store/invoice_logo.jpg" %>
 <table>
   <tr>
-    <td width="345"><%= wicked_pdf_image_tag Spree::HtmlInvoice::Config[:html_invoice_logo_path] || "store/invoice_logo.jpg", :id => "logo" %></td>
+    <td width="345"><%= self.formats.include?(:pdf)? wicked_pdf_image_tag(logo_path, :id => "logo") : image_tag(logo_path, :id => 'logo') %></td>
     <td width="345">
       <% if @order.payment_method.class.name == 'Spree::CashOnDelivery::PaymentMethod' %>
       <div class="cod">
@@ -8,7 +9,7 @@
       </div>
       <% end %>
     <div align="right">
-      <p class="title"><%= t("#{params[:template]}.header") %></p>
+      <p class="title"><%= t("invoice.header") %></p>
       <p><%= t('invoice.order_number', :number => @order.number) %></p>
       <p><%= l(@order.completed_at.to_date) if @order.completed_at %></p>
       <p><%= t('invoice.shipping_method', :name => @order.shipping_method.name) %></p>
