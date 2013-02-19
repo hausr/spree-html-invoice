@@ -1,4 +1,4 @@
 <p class="invoice_buttons">
-	<a class='btn' href="<%= invoice_path(@order.number, :format => 'pdf') %>"><i class='icon-download-alt'></i> Download Invoice PDF</a>
-	<a class='btn' href="<%= invoice_path(@order.number, :print => true) %>" target="_blank"><i class='icon-print'></i> Print Invoice</a>
+	<a class='btn' href="<%= invoice_path(@order.number, :format => 'pdf') %>"><i class='icon-download-alt'></i> <%= t(:download_invoice_pdf) %></a>
+	<a class='btn' href="<%= invoice_path(@order.number, :print => true) %>" target="_blank"><i class='icon-print'></i> <%= t(:print_invoice) %></a>
 </p>
