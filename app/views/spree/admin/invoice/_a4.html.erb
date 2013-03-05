@@ -3,17 +3,94 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <%= stylesheet_link_tag "admin/html-invoice.css" , :media => "all" %>
-<title><%= t("#{params[:template]}.header") %></title>
+<title><%= t("#{params[:template]}.header") + " #{t(:order)} ##{@order.number}" %></title>
+
 </head>
 
 <body>
   <div class="a4">
     <div id="header">
-      <%= render :partial => "header" %>
+
+
+      <table>
+        <tr>
+          <td width="400" valign="top">
+            <%= image_tag Spree::HtmlInvoice::Config[:html_invoice_logo_path] || "store/invoice_logo.jpg", :id => "logo" %>
+            <p><%==I18n.t(:header1)%></p>
+            <p><%==I18n.t(:header2)%></p>
+            <p><%==I18n.t(:header3)%></p>
+            <p><%==I18n.t(:header4)%></p>
+          </td>
+          <td align="right">
+            <% if @order.payment_method.class.name == 'Spree::CashOnDelivery::PaymentMethod' %>
+            <div class="cod">
+              <%= "COD - #{number_to_currency(@order.total)}" %>
+            </div>
+            <% end %>
+            <div class="addr">
+              <%
+              if params[:template] == "packaging_slip"
+                the_address = @order.ship_address
+              else
+                the_address = @order.bill_address
+              end
+              anonymous = @order.email =~ /@example.net$/
+
+              if (anonymous and Spree::HtmlInvoice::Config[:suppress_anonymous_address]) or the_address.blank?
+                addresses = [[" "," "]] * 5 
+              else
+                addresses = [[  "#{the_address.firstname} #{the_address.lastname}"]]
+                addresses << [ the_address.company] if Spree::Config[:company] and (the_address.company.present?)
+                addresses << [ the_address.address1]
+                addresses << [ the_address.address2] if the_address.address2.present?
+                addresses << [
+                  "#{the_address.zipcode} #{the_address.city} #{the_address.state.try(:name) || the_address.state_text}"
+                ]
+                addresses << [ "#{the_address.country.name}" ]
+                addresses << [ the_address.cf ] if the_address.cf.present? && params[:template] != "packaging_slip"
+                addresses << [ the_address.phone ]
+                addresses << [ @order.email ] if params[:template] != "packaging_slip"
+              end
+              %>
+              <table class="address">
+                <tr>
+                  <td width="100%" class="billing_header bold"><%= t(:customer)%></td>
+                </tr>
+                <% addresses.each do |row| %>
+                <tr>   
+                  <td height="15px" width="100%" class="cell billing"><%=row[0]%> </td>
+                </tr>
+                <% end %>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <table border="0" cellspacing="5" cellpadding="0" class="order_details">
+        <tr>
+          <td><%= t("#{params[:template]}.header") %></td>          
+          <td><%= "##{@order.id}" %></td>          
+        </tr>
+        <tr>
+          <td><%= "#{t('spree.date')}" %></td>          
+          <td><%= "#{l(@order.completed_at.to_date)}" if @order.completed_at %></td>          
+        </tr>
+        <tr>
+          <td><%= t(:order) %></td>          
+          <td><%= "##{@order.number}" %></td>          
+        </tr>
+      </table>
+
+      <p><%#= t('invoice.shipping_method', :name => @order.shipping_method.name) %></p>
+      <p><%#= t('invoice.payment_status', :status => @order.payment_state.titlecase, :method => @order.payment_method.name.titlecase) %></p>
+      <br>
+
+
+
+
     </div>
-    <div class="address">
-      <%= render :partial => "address" %>
-    </div>
+
     <div class="wrapper">
       <div class="line_items">
         <%= render :partial => "line_items_#{params[:template]}" %>
@@ -25,6 +102,7 @@
       <div id="totals">
         <%= render :partial => "totals_#{params[:template]}" %>
       </div>
+      <p><%= t('invoice.shipping_method', :name => @order.shipping_method.name) if params[:template] == "packaging_slip" %></p>
     </div>
     <div class="footer">
       <%= render :partial => "footer" %>

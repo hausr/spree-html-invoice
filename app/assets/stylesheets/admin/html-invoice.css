@@ -7,18 +7,25 @@ div.a4 {
 div.a4 p {
   margin:0;
 }
+div.a4 h3 {
+  margin:5px;
+}
 
 img#logo {
-  width: 280px;
-  padding-bottom: 12px;
+  width: auto;
+  height:100px;
+  padding-bottom: 0px;
 }
 
 div#header {
-  height: 140px;	
+  height: auto; 
 }
 
 div#header p {
-  margin:10px 0;
+  margin:5px 0;
+}
+div#header .addr {
+  margin:100px 0 0;
 }
 
 div.address {
@@ -31,6 +38,10 @@ table.line_items {
   margin-bottom:20px;
 }
 
+table.line_items td.cell {
+
+}
+
 .line_items .price, .line_items .total {
   text-align: right;
 }
@@ -40,7 +51,7 @@ table.line_items {
 }
 
 div.wrapper {
-  height: 540px;
+  min-height: 240px;
   border-top:1px solid grey;
   padding: 6px 0;
 }
@@ -83,13 +94,15 @@ div.footer {
   padding: 6px;
 }
 
-.footer .bold {
-  width: 100px;
-}
 .footer .cell {
-  width: 220px;
+  width: 0px;
 }
-
+.footer .cel1 {
+  width: 400px;
+}
+.footer .cel4 {
+  width: 400px;
+}
 
 .title { font-weight: bold; color: #FF9933; font-size: 18px; }
 .bold { font-weight: bold; }
@@ -97,6 +110,12 @@ div.footer {
 
 table {
   width:100%;
+}
+
+table.order_details{
+  width:220px;
+  font-size:14px;
+  font-weight: bold;
 }
 
 table.index th {
@@ -140,7 +159,7 @@ table.index.order-summary {
   table.index td.actions {text-align:right;}
 
 table.footer td{
-	line-height: 16px;
+  line-height: 16px;
   padding-bottom: 3px;
 }
 
