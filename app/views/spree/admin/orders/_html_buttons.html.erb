@@ -1,5 +1,7 @@
-<% buttons = Spree::HtmlInvoice::Config[:print_buttons] || "invoice"
+<div class="toolbar" style="margin-top: 2px; margin-left: 7px;">
+  <% buttons = Spree::HtmlInvoice::Config[:print_buttons] || "invoice"
    buttons = buttons.split(",").collect{|b| b.strip } %>
 <%  buttons.each do |button| %>
-<%= button_link_to(t(button.to_s+".print"), "/admin/invoice/#{@order.number}/#{button}" , :target => "_blank") %>
+<%= button_link_to("#{image_tag('admin/icons/printer.png', :size => '16x16')} #{t(button.to_s+'.header')}", "/admin/invoice/#{@order.number}/#{button}" , :target => "_blank") %>
 <%end%>
+</div>

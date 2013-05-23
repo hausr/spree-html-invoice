@@ -70,7 +70,7 @@
       <table border="0" cellspacing="5" cellpadding="0" class="order_details">
         <tr>
           <td><%= t("#{params[:template]}.header") %></td>          
-          <td><%= "##{@order.id}" %></td>          
+          <td><%= "##{@order.invoice || @order.id}" %></td>          
         </tr>
         <tr>
           <td><%= "#{t('spree.date')}" %></td>          
