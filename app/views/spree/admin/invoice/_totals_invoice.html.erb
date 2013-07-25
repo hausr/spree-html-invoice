@@ -12,23 +12,20 @@
     </tr>
   <% end %>
   <% end %>
+
+  <% if @order.price_adjustment_totals.present? %>
+  <tr>
+    <td class="cel1 bold"><%= t(:net_amount) %>: </td>
+    <td class="cel2 bold cell" align="right"><%= number_to_currency @order.item_total - @order.price_adjustment_totals.values.inject(:+) %></td>
+  </tr>
+  <% else %>
   <tr>
     <td class="cel1 bold"><%= t(:item_total) %>: </td>
     <td class="cel2 bold cell" align="right"><%= number_to_currency @order.item_total %></td>
   </tr>
-  <% @order.adjustments.eligible.each do |adjustment| %>
-  <% next if (adjustment.originator_type == 'Spree::TaxRate') and (adjustment.amount == 0) %>
-  <% next if  (adjustment.amount == 0) %>
-  <tr>
-    <td class="cel1 bold"><%= adjustment.label %>: </td>
-    <td class="cel2 cell" align="right"><%= number_to_currency adjustment.amount %></td>
-  </tr>
-  <% end %>
+  <% end -%>
 
-  <tr>
-    <td class="cel1 bold"><strong><%= t(:order_total) %>:</strong></td>
-    <td class="cel2 cell" align="right"><strong><span id='summary-order-total'><%= number_to_currency @order.total %></span></strong></td>
-  </tr>
+
   <% if @order.price_adjustment_totals.present? %>
   <tr>
     <td class="cel1"></td>
@@ -42,4 +39,25 @@
   </tr>
   <% end %>
   <% end %>
+
+
+  <% @order.adjustments.eligible.each do |adjustment| %>
+  <% next if (adjustment.originator_type == 'Spree::TaxRate') and (adjustment.amount == 0) %>
+  <% next if  (adjustment.amount == 0) %>
+  <tr>
+    <td class="cel1 bold"><%= adjustment.label %>: </td>
+    <td class="cel2 cell" align="right"><%= number_to_currency adjustment.amount %></td>
+  </tr>
+  <% end %>
+
+
+  <tr>
+    <td class="cel1 bold"><strong><%= t(:order_total) %>:</strong></td>
+    <td class="cel2 cell" align="right"><strong><span id='summary-order-total'><%= number_to_currency @order.total %></span></strong></td>
+  </tr>
+
+
+
+
+
 </table>
