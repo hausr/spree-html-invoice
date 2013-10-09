@@ -34,9 +34,9 @@
   <% next if  (adjustment.amount == 0) %>
   <tr>
     <td class="cel1"><%= adjustment.label %> </td>
-    <td class="cel2 cell" align="right"><%= number_to_currency adjustment.amount * 0.79 %></td>
-    <% shipping_VAT = shipping_VAT + adjustment.amount * 0.21 %>
-    <% shipping = shipping + adjustment.amount * 0.79 %>
+    <td class="cel2 cell" align="right"><%= number_to_currency adjustment.amount * 0.78 %></td>
+    <% shipping_VAT = shipping_VAT + adjustment.amount * 0.22 %>
+    <% shipping = shipping + adjustment.amount * 0.78 %>
   </tr>
   <% end %>
 
@@ -63,16 +63,16 @@
       <% next unless @order.price_adjustment_totals[key] %>
       <tr class="total">
         <td class="cel1"><%= key.delete("inclusa") %></td>
-        <% if key =~ /IVA 21/ %>
+        <% if key =~ /IVA 22/ %>
         <td class="cel2 cell" align="right"><%= number_to_currency @order.price_adjustment_totals[key] + shipping_VAT %></td>
         <% else %>
         <td class="cel2 cell" align="right"><%= number_to_currency @order.price_adjustment_totals[key] %></td>
         <% end -%>
       </tr>
     <% end %>
-    <% unless @order.price_adjustment_totals.keys.any? { |k| k =~ /IVA 21/ } %>
+    <% unless @order.price_adjustment_totals.keys.any? { |k| k =~ /IVA 22/ } %>
       <tr class="total">
-        <td class="cel1">IVA 21%</td>
+        <td class="cel1">IVA 22%</td>
         <td class="cel2 cell" align="right"><%= number_to_currency shipping_VAT %></td>
       </tr>
     <% end -%>
