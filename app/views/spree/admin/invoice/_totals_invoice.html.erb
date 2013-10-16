@@ -27,16 +27,28 @@
   <% end -%>
 
   <!-- SPEDIZIONE, SPESE DI GESTIONE -->
-  <% shipping_VAT = 0 %>
-  <% shipping = 0 %>
+  <% max_vat_label = (@order.completed_at < Date.new(2013,10,1))? "IVA 21%" : "IVA 22%" %>
+  <% max_vat_rate = (@order.completed_at < Date.new(2013,10,1))? 0.21 : 0.22 %>
+
+  <% @order.price_adjustments.each do |pa|
+    if pa.originator.tax_category_id == 1
+      max_vat_label = pa.label
+      max_vat_rate = (pa.label.match(/(\d\d)%/)[0]).to_f/100
+    end
+  end -%>
+  
+  <% adjustments_VAT = 0 %>
+  <% adjustments_net_amount = 0 %>
+
   <% @order.adjustments.eligible.each do |adjustment| %>
   <% next if (adjustment.originator_type == 'Spree::TaxRate') and (adjustment.amount == 0) %>
   <% next if  (adjustment.amount == 0) %>
+  <% this_adjustment_net_amount = adjustment.amount/(1+max_vat_rate) %>
+  <% adjustments_net_amount += this_adjustment_net_amount %>
+  <% adjustments_VAT += (this_adjustment_net_amount * max_vat_rate) %>
   <tr>
     <td class="cel1"><%= adjustment.label %> </td>
-    <td class="cel2 cell" align="right"><%= number_to_currency adjustment.amount * 0.78 %></td>
-    <% shipping_VAT = shipping_VAT + adjustment.amount * 0.22 %>
-    <% shipping = shipping + adjustment.amount * 0.78 %>
+    <td class="cel2 cell" align="right"><%= number_to_currency this_adjustment_net_amount %></td>
   </tr>
   <% end %>
 
@@ -44,12 +56,12 @@
   <% if @order.price_adjustment_totals.present? %>
   <tr>
     <td class="cel1 bold"><%= t(:net_amount) %> </td>
-    <td class="cel2 bold cell" align="right"><%= number_to_currency @order.item_total - @order.price_adjustment_totals.values.inject(:+) + shipping %></td>
+    <td class="cel2 bold cell" align="right"><%= number_to_currency @order.item_total - @order.price_adjustment_totals.values.inject(:+) + adjustments_net_amount %></td>
   </tr>
   <% else %>
   <tr>
     <td class="cel1 bold"><%= t(:item_total) %> </td>
-    <td class="cel2 bold cell" align="right"><%= number_to_currency @order.item_total + shipping %></td>
+    <td class="cel2 bold cell" align="right"><%= number_to_currency @order.item_total + adjustments_net_amount %></td>
   </tr>
   <% end -%>
 
@@ -63,22 +75,22 @@
       <% next unless @order.price_adjustment_totals[key] %>
       <tr class="total">
         <td class="cel1"><%= key.delete("inclusa") %></td>
-        <% if key =~ /IVA 22/ %>
-        <td class="cel2 cell" align="right"><%= number_to_currency @order.price_adjustment_totals[key] + shipping_VAT %></td>
+        <% if key == max_vat_label %>
+        <td class="cel2 cell" align="right"><%= number_to_currency @order.price_adjustment_totals[key] + adjustments_VAT %></td>
         <% else %>
         <td class="cel2 cell" align="right"><%= number_to_currency @order.price_adjustment_totals[key] %></td>
         <% end -%>
       </tr>
     <% end %>
-    <% unless @order.price_adjustment_totals.keys.any? { |k| k =~ /IVA 22/ } %>
+    <% unless @order.price_adjustment_totals.keys.any? { |k| k == max_vat_label } %>
       <tr class="total">
-        <td class="cel1">IVA 22%</td>
-        <td class="cel2 cell" align="right"><%= number_to_currency shipping_VAT %></td>
+        <td class="cel1"><%= max_vat_label %></td>
+        <td class="cel2 cell" align="right"><%= number_to_currency adjustments_VAT %></td>
       </tr>
     <% end -%>
     <tr class="total">
       <td class="cel1 bold"><%= t(:vat) %></td>
-      <td class="cel2 cell bold" align="right"><%= number_to_currency @order.price_adjustment_totals.values.inject(:+) + shipping_VAT %></td>
+      <td class="cel2 cell bold" align="right"><%= number_to_currency @order.price_adjustment_totals.values.inject(:+) + adjustments_VAT %></td>
     </tr>
     <tr>
       <td class="cel1"></td>
@@ -86,14 +98,9 @@
     </tr>
   <% end %>
 
-
   <tr>
     <td class="cel1 bold"><strong><%= t(:order_total) %></strong></td>
     <td class="cel2 cell" align="right"><strong><span id='summary-order-total'><%= number_to_currency @order.total %></span></strong></td>
   </tr>
-
-
-
-
 
 </table>
