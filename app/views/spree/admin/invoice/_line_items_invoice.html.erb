@@ -22,7 +22,7 @@
       <td class="cell"><%= item.variant.product.fullname rescue item.variant.product.name %></td>
       <td class="cell price"><%=number_to_currency(item.price) unless @receipt%></td>
       <td class="cell" align="right"><%= item.quantity %></td>
-      <td class="cell price"><%= number_to_currency((item.price-vat_amount) * item.quantity) %></td>
+      <td class="cell price"><%= number_to_currency( ( item.price * item.quantity ) - vat_amount ) %></td>
       <td class="cell" align="right"><%= vat_rate_txt %></td>
     </tr>
     <% if item.respond_to? :discount and item.discount > 0 %>
