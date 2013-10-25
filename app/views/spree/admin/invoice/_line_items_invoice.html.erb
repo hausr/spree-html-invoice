@@ -10,16 +10,20 @@
     <td class="sku bold"><%= t(:sku) unless @receipt %></td>
     <td class="desc bold"><%= t(:item_description) %></td>
     <td class="price bold"><%=t(:price) unless @receipt%></td>
-    <td class="qty bold"><%= t(:qty) %> </td>
-    <td class="total bold"><%= t(:total) %></td>
+    <td class="bold" align="right"><%= t(:qty) %> </td>
+    <td class="price bold"><%= t(:net_amount) %> </td>
+    <td class="bold" align="right"><%= t(:vat) %> </td>
   </tr>
   <% @order.line_items.each do |item| %>
+    <% vat_rate_txt = @order.price_adjustments.select{|a| a.source == item }.first.label.delete("IVA inclusa") rescue "-----" %>
+    <% vat_amount   = @order.price_adjustments.select{|a| a.source == item }.first.amount rescue 0 %>
     <tr>
       <td class="cell"><%=item.variant.sku unless @receipt%></td>
       <td class="cell"><%= item.variant.product.fullname rescue item.variant.product.name %></td>
       <td class="cell price"><%=number_to_currency(item.price) unless @receipt%></td>
-      <td class="cell qty"><%=item.quantity %></td>
-      <td class="cell total"><%=number_to_currency(item.price * item.quantity) %></td>
+      <td class="cell" align="right"><%= item.quantity %></td>
+      <td class="cell price"><%= number_to_currency((item.price-vat_amount) * item.quantity) %></td>
+      <td class="cell" align="right"><%= vat_rate_txt %></td>
     </tr>
     <% if item.respond_to? :discount and item.discount > 0 %>
       <tr>
@@ -31,4 +35,22 @@
       </tr>
     <% end %>
   <% end %>
+
+  <!-- SPEDIZIONE, SPESE DI GESTIONE -->
+  <% max_vat_label = (@order.completed_at < Date.new(2013,10,1))? "21%" : "22%" %>
+  <% max_vat_rate = (@order.completed_at < Date.new(2013,10,1))? 0.21 : 0.22 %>
+
+  <% @order.adjustments.eligible.each do |adjustment| %>
+    <% next if (adjustment.originator_type == 'Spree::TaxRate') and (adjustment.amount == 0) %>
+    <% next if  (adjustment.amount == 0) %>
+    <tr>
+      <td class="cell"><%= "---------------" %></td>
+      <td class="cel1"><%= adjustment.label %> </td>
+      <td class="cel2 cell" align="right"><%= number_to_currency(adjustment.amount) %></td>
+      <td class="cel2" align="right">1</td>
+      <td class="cel2 cell" align="right"><%= number_to_currency(adjustment.amount/(1+max_vat_rate)) %></td>
+      <td class="cel2 price"><%= max_vat_label %></td>
+    </tr>
+  <% end %>
+
 </table>
