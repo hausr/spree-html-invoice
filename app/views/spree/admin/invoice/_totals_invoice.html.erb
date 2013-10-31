@@ -55,8 +55,27 @@
       <td class="cel1"></td>
       <td class="cel2"></td>
     </tr>
+
+    <% @order.price_adjustment_totals.keys.each do |key| %>
+      <% next unless @order.price_adjustment_totals[key] %>
+      <tr class="total">
+        <td class="cel1"><%= key.delete("inclusa") %></td>
+        <% if key == max_vat_label %>
+        <td class="cel2 cell" align="right"><%= number_to_currency @order.price_adjustment_totals[key] + adjustments_VAT %></td>
+        <% else %>
+        <td class="cel2 cell" align="right"><%= number_to_currency @order.price_adjustment_totals[key] %></td>
+        <% end -%>
+      </tr>
+    <% end %>
+    <% unless @order.price_adjustment_totals.keys.any? { |k| k == max_vat_label } %>
+      <tr class="total">
+        <td class="cel1"><%= max_vat_label %></td>
+        <td class="cel2 cell" align="right"><%= number_to_currency adjustments_VAT %></td>
+      </tr>
+    <% end -%>
+
     <tr class="total">
-      <td class="cel1"><%= t(:vat) %></td>
+      <td class="cel1"><%= t(:subtotal) + " " + t(:vat) %></td>
       <td class="cel2 cell" align="right"><%= number_to_currency @order.price_adjustment_totals.values.inject(:+) + adjustments_VAT %></td>
     </tr>
     <tr>
